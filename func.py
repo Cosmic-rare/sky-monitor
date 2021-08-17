@@ -18,8 +18,6 @@ def request(url):
     newData["year"] = now.year
     newData["month"] = now.month
     newData["day"] = now.day
-    newData["hour"] = now.hour
-    newData["minute"] = now.minute
     newData["time"] = time()
     return newData
 
