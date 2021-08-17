@@ -20,6 +20,7 @@ def request(url):
     newData["day"] = now.day
     newData["hour"] = now.hour
     newData["minute"] = now.minute
+    newData["time"] = time()
     return newData
 
 # 月齢を調べる関数
@@ -32,7 +33,25 @@ def moon_age():
     mp = [0,2,0,2,2,4,5,6,7,8,9,10]
     return (((y - 11) % 19) * 11 + mp[m - 1] + d) % 30
 
-link = "https://api.openweathermap.org/data/2.5/onecall?lon=140.47670066333643&lat=37.759109816261606&units=metric&lang=ja&appid={}".format(api())
-sky = request(link)
+def time():
+    day = datetime.date.today()
+    now = datetime.datetime.now().time()
+    times = [
+        datetime.time(8,40,0),
+        datetime.time(9,40,0),
+        datetime.time(10,40,0),
+        datetime.time(11,40,0),
+        # datetime.time(),
+        # datetime.time(),
+        ]
+    dif = []
 
-print(sky)
+    for i in times:
+        td = abs(datetime.datetime.combine(day, i) - datetime.datetime.combine(day, now))
+        dif.append(td)
+    
+    return dif.index(min(dif))
+
+
+if __name__ == "__main__":
+    print(request("https://api.openweathermap.org/data/2.5/onecall?lon=140.47670066333643&lat=37.759109816261606&units=metric&lang=ja&appid={}".format(api())))
