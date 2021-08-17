@@ -29,7 +29,9 @@ def index():
 
 @app.route("/archive")
 def archive_top():
-    return "ar top"
+    data = db.session.query(Sky.year.distinct().label("year"))
+    datas = [row.year for row in data.all()]
+    return render_template("ar_top.html", data=datas)
 
 @app.route("/archive/<int:year>")
 def archive_year(year):
