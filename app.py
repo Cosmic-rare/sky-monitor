@@ -1,7 +1,8 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
-from keys import token, uri
+from func import request
+from keys import token, uri, api
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = uri()
@@ -11,6 +12,7 @@ class Sky(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     pressure = db.Column(db.Integer)
     humidity = db.Column(db.Integer)
+    temp = db.Column(db.Integer)
     weather_icon = db.Column(db.String(15))
     moon = db.Column(db.Integer)
     year = db.Column(db.Integer)
@@ -42,6 +44,20 @@ def old():
 @app.route("/create/<Token>")
 def create(Token):
     if Token == token():
+        data = request("https://api.openweathermap.org/data/2.5/onecall?lon=140.47670066333643&lat=37.759109816261606&units=metric&lang=ja&appid={}".format(api()))
+        sky = Sky(
+            pressure = data["pressure"],
+            humidity = data["humidity"],
+            temp = data["temp"],
+            weather_icon = data["weather_icon"],
+            moon = data["moon"],
+            year = data["year"],
+            month = data["month"],
+            day = data["day"],
+            time = data["time"]
+        )
+        db.session.add(sky)
+        db.session.commit()
         return "<h1>OK</h1>"
     else:
         return redirect("/")

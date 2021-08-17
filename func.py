@@ -39,8 +39,8 @@ def time():
         datetime.time(9,40,0),
         datetime.time(10,40,0),
         datetime.time(11,40,0),
-        # datetime.time(),
-        # datetime.time(),
+        datetime.time(13,35,0),
+        datetime.time(14,35,0),
         ]
     dif = []
 
