@@ -23,7 +23,9 @@ class Sky(db.Model):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    count = db.session.query(Sky).count()
+    data = Sky.query.get(count)
+    return render_template("index.html", data=data)
 
 @app.route("/archive")
 def archive_top():
