@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
+from render import rend
 from func import request
 from keys import token, uri, api
 
@@ -50,8 +51,14 @@ def archive_month(year, month):
 
 @app.route("/old")
 def old():
-    data = Sky.query.filter_by(time=4).limit(20)
-    return render_template("old.html", data=data)
+    data = Sky.query.order_by("id").filter_by(time=4).limit(20)
+    lis = []
+    for i in data:
+        lis.append(i.month)
+    months = list(set(lis))
+    months.sort()
+    print(months)
+    return rend(months=months, datas=data)
 
 @app.route("/create/<Token>")
 def create(Token):
