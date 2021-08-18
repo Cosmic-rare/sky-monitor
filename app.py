@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, Markup
 from flask_sqlalchemy import SQLAlchemy
 
 from render import rend
@@ -26,7 +26,7 @@ class Sky(db.Model):
 def index():
     count = db.session.query(Sky).count()
     data = Sky.query.get(count)
-    return render_template("index.html", data=data)
+    return render_template("top.html", data=data)
 
 @app.route("/archive")
 def archive_top():
@@ -58,7 +58,8 @@ def old():
     months = list(set(lis))
     months.sort()
     print(months)
-    return rend(months=months, datas=data)
+    html = Markup(rend(months=months, datas=data))
+    return render_template("old.html", title = "過去のページ", html = html)
 
 @app.route("/create/<Token>")
 def create(Token):

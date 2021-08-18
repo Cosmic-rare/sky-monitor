@@ -14,24 +14,4 @@ def rend(months, datas):
         html = "<h1>ERROR</h1>"
     else:
         html = "<table>" + html0 + "</table><table>" + html1 + "</table>"
-    return create_html("「過去」のページ", html)
-
-def create_html(title, html):
-    base = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <link rel="stylesheet" href="static/sample.css">
-    <title>{}</title>
-    </head>
-    <body>
-    {}
-    </body>
-    </html>
-    """
-    
-    html = base.format(title, html)
-
     return html
-
-# table tr td
