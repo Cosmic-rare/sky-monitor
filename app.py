@@ -29,7 +29,7 @@ def index():
 
 @app.route("/archive")
 def archive_top():
-    data = db.session.query(Sky.year.distinct().label("year"))
+    data = db.session.query(Sky.year.distinct().label("year")).order_by("year")
     datas = [row.year for row in data.all()]
     return render_template("ar_top.html", data=datas)
 
@@ -62,7 +62,7 @@ def create(Token):
         )
         db.session.add(sky)
         db.session.commit()
-        return "<h1>OK</h1>"
+        return "<h1>書き込めました</h1>"
     else:
         return redirect("/")
 
