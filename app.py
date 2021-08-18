@@ -35,7 +35,14 @@ def archive_top():
 
 @app.route("/archive/<int:year>")
 def archive_year(year):
-    return "archive" + str(year)
+    data = Sky.query.filter_by(year=year)
+    datas = []
+    for i in data:
+        datas.append(i.month)
+    datas = list(set(datas))
+    datas.sort()
+    print(datas)
+    return render_template("archive_year.html", data = datas)
 
 @app.route("/archive/<int:year>/<int:month>")
 def archive_month(year, month):
