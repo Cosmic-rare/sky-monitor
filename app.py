@@ -50,7 +50,8 @@ def archive_month(year, month):
 
 @app.route("/old")
 def old():
-    return render_template("old.html")
+    data = Sky.query.filter_by(time=4).limit(20)
+    return render_template("old.html", data=data)
 
 @app.route("/create/<Token>")
 def create(Token):
