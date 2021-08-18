@@ -42,7 +42,7 @@ def archive_year(year):
     datas = list(set(datas))
     datas.sort()
     print(datas)
-    return render_template("archive_year.html", data = datas)
+    return render_template("archive_year.html", data = datas, year=year)
 
 @app.route("/archive/<int:year>/<int:month>")
 def archive_month(year, month):
