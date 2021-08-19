@@ -32,7 +32,8 @@ def index():
 def archive_top():
     data = db.session.query(Sky.year.distinct().label("year")).order_by("year")
     datas = [row.year for row in data.all()]
-    return render_template("ar_top.html", data=datas)
+
+    return render_template("archive_top.html", data=datas)
 
 @app.route("/archive/<int:year>")
 def archive_year(year):
@@ -49,18 +50,6 @@ def archive_year(year):
 def archive_month(year, month):
     return render_template("archive.html", year=year, month=month)
 
-@app.route("/old")
-def old():
-    data = Sky.query.order_by("id").filter_by(time=4).limit(20)
-    lis = []
-    for i in data:
-        lis.append(i.month)
-    months = list(set(lis))
-    months.sort()
-    print(months)
-    html = Markup(rend(months=months, datas=data))
-    return render_template("old.html", title = "過去のページ", html = html)
-
 @app.route("/create/<Token>")
 def create(Token):
     if Token == token():
@@ -74,7 +63,7 @@ def create(Token):
             year = data["year"],
             month = data["month"],
             day = data["day"],
-            time = data["time"]
+            time = data["time"] + 1
         )
         db.session.add(sky)
         db.session.commit()

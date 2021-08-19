@@ -11,7 +11,6 @@ def request(url):
     ok = ["pressure","humidity","temp"]
     for i in ok:
         newData[i] = data[i]
-    newData["weather_id"] = data["weather"][0]["id"]
     newData["weather_icon"] = data["weather"][0]["icon"]
     newData["moon"] = moon_age()
     now = datetime.datetime.now()
@@ -49,6 +48,11 @@ def time():
         dif.append(td)
     
     return dif.index(min(dif))
+
+def img_link(weather_icon):
+    base = "https://openweathermap.org/img/wn/{}@2x.png"
+    url = base.format(weather_icon)
+    return url
 
 
 if __name__ == "__main__":
